@@ -22,6 +22,4 @@ export class HomeComponent implements OnInit {
       this.items = response;
     });
   }
-
-  editItem(id: number){}
 }

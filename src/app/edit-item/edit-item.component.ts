@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ItemRequest} from "../dto/item-request";
 import {ItemService} from "../service/item.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {NgxSpinnerService} from "ngx-spinner";
+import {ItemResponse} from "../dto/item-response";
 
 @Component({
   selector: 'app-edit-item',
@@ -13,11 +14,14 @@ import {NgxSpinnerService} from "ngx-spinner";
 })
 export class EditItemComponent implements OnInit {
 
+  id: number = 0;
   itemForm!: FormGroup;
+  response !: ItemResponse;
   itemRequest!: ItemRequest;
 
   constructor(private itemService: ItemService,
               private router: Router,
+              private activatedRoute: ActivatedRoute,
               private toastr: ToastrService,
               private spinner: NgxSpinnerService) {
     this.itemRequest = {
@@ -25,6 +29,10 @@ export class EditItemComponent implements OnInit {
       description: '',
       date: new Date()
     }
+
+    this.activatedRoute.params.subscribe(params => {
+      this.id = params[`id`];
+    });
   }
 
   ngOnInit(): void {
@@ -33,6 +41,22 @@ export class EditItemComponent implements OnInit {
       item: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required])
+    });
+
+    this.getItemById();
+  }
+
+  private getItemById(){
+
+    this.itemService.getItemById(this.id).subscribe(response => {
+
+      this.itemForm.patchValue({
+        item: response.itemName,
+        description: response.description,
+        date: response.date,
+        status: response.status
+      });
+
     });
   }
 
@@ -56,8 +80,9 @@ export class EditItemComponent implements OnInit {
     this.itemRequest.description = this.description?.value;
     this.itemRequest.date = this.date?.value;
 
-    this.itemService.save(this.itemRequest).subscribe(response => {
-      this.toastr.success('Item saved successfully!');
+    this.itemService.update(this.id, this.itemRequest).subscribe(response => {
+      this.toastr.success('Item updated successfully!');
+      this.router.navigateByUrl('/');
     })
 
     this.spinner.hide();

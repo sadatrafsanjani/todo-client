@@ -19,6 +19,11 @@ export class ItemService {
     return this.http.get<ItemResponse[]>(this.url);
   }
 
+  getItemById(id: number): Observable<ItemResponse> {
+
+    return this.http.get<ItemResponse>(this.url + '/' + id);
+  }
+
   save(payload: ItemRequest) {
 
     return this.http.post<ItemResponse>(this.url, payload);

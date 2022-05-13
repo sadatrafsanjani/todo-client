@@ -58,6 +58,7 @@ export class NewItemComponent implements OnInit {
 
     this.itemService.save(this.itemRequest).subscribe(response => {
       this.toastr.success('Item saved successfully!');
+      this.router.navigateByUrl('/');
     })
 
     this.spinner.hide();
