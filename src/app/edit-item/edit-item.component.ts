@@ -48,17 +48,16 @@ export class EditItemComponent implements OnInit {
     this.getItemById();
   }
 
+
   private getItemById(){
 
     this.itemService.getItemById(this.id).subscribe(response => {
-
-      this.itemForm.patchValue({
+      this.itemForm.setValue({
         item: response.itemName,
         description: response.description,
         date: response.date,
         status: response.status
       });
-
     });
   }
 
@@ -91,6 +90,8 @@ export class EditItemComponent implements OnInit {
       this.toastr.success('Item updated successfully!');
       this.router.navigateByUrl('/');
     })
+
+    console.log(this.itemRequest);
 
     this.spinner.hide();
   }
