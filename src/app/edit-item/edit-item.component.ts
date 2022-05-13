@@ -27,7 +27,8 @@ export class EditItemComponent implements OnInit {
     this.itemRequest = {
       itemName: '',
       description: '',
-      date: new Date()
+      date: new Date(),
+      status: false
     }
 
     this.activatedRoute.params.subscribe(params => {
@@ -40,7 +41,8 @@ export class EditItemComponent implements OnInit {
     this.itemForm = new FormGroup({
       item: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      date: new FormControl('', [Validators.required])
+      date: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required])
     });
 
     this.getItemById();
@@ -72,6 +74,10 @@ export class EditItemComponent implements OnInit {
     return this.itemForm.get('date');
   }
 
+  get status() {
+    return this.itemForm.get('status');
+  }
+
   onSubmit(){
 
     this.spinner.show();
@@ -79,6 +85,7 @@ export class EditItemComponent implements OnInit {
     this.itemRequest.itemName = this.item?.value;
     this.itemRequest.description = this.description?.value;
     this.itemRequest.date = this.date?.value;
+    this.itemRequest.status = this.status?.value;
 
     this.itemService.update(this.id, this.itemRequest).subscribe(response => {
       this.toastr.success('Item updated successfully!');

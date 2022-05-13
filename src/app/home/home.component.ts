@@ -10,6 +10,8 @@ import {ItemService} from "../service/item.service";
 export class HomeComponent implements OnInit {
 
   items: ItemResponse[] = [];
+  page: number = 1;
+  collection: any[] = [];
 
   constructor(private itemService: ItemService) { }
 
@@ -20,6 +22,12 @@ export class HomeComponent implements OnInit {
   private getAllItems(){
     this.itemService.getAllItems().subscribe(response => {
       this.items = response;
+      this.collection = response;
     });
+  }
+
+  getItemStatusStyle(status: boolean){
+
+    return status ? 'text-success' : 'text-danger';
   }
 }

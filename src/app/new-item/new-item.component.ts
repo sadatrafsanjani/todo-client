@@ -23,7 +23,8 @@ export class NewItemComponent implements OnInit {
     this.itemRequest = {
       itemName: '',
       description: '',
-      date: new Date()
+      date: new Date(),
+      status: false
     }
   }
 

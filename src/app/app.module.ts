@@ -15,6 +15,7 @@ import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {HttpClientModule} from "@angular/common/http";
     RouterModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
